@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Bodeguero - FERREMAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="bodeguero-bg">
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">FERRE<span class="brand">MAS</span></a>
+            <ul class="navbar-nav">
+                <li><a href="#" class="nav-link">Pedidos</a></li>
+                <li><a href="#" class="nav-link">Inventario</a></li>
+                <li><a href="#" class="nav-link">Historial</a></li>
+                <li id="menu-inicio"><a href="index.html">Inicio</a></li>
+                <li id="menu-productos"><a href="productos.html">Productos</a></li>
+                <li id="menu-carrito"><a href="carrito.html">Carrito</a></li>
+                <li id="menu-admin"><a href="admin.html">Admin</a></li>
+                <li id="menu-bodega"><a href="bodeguero.html">Bodega</a></li>
+                <li><a href="#" id="logoutBtn" style="display:none;">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="panel-container">
+        <h1>Panel de Bodeguero</h1>
+        <!-- Información del usuario -->
+        <div class="dashboard-widgets">
+            <div class="widget">
+                <div class="widget-title">Pedidos pendientes</div>
+                <div class="widget-value">12</div>
+                <div class="widget-footer">
+                    <i class="fas fa-arrow-up trend-up"></i>
+                    <span>3 más que ayer</span>
+                </div>
+            </div>
+            <div class="widget">
+                <div class="widget-title">Pedidos procesados hoy</div>
+                <div class="widget-value">24</div>
+                <div class="widget-footer">
+                    <i class="fas fa-arrow-up trend-up"></i>
+                    <span>6 más que ayer</span>
+                </div>
+            </div>
+            <div class="widget">
+                <div class="widget-title">Tiempo promedio preparación</div>
+                <div class="widget-value">18 min</div>
+                <div class="widget-footer">
+                    <i class="fas fa-arrow-down trend-up"></i>
+                    <span>2 min menos que ayer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros de pedidos -->
+        <div class="filter-container">
+            <h2>Órdenes de Pedidos</h2>
+            <div class="filter-group">
+                <label>Filtrar por:</label>
+                <select class="form-control">
+                    <option>Todos</option>
+                    <option>Pendientes</option>
+                    <option>En proceso</option>
+                    <option>Completados</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Tabla de pedidos -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Cliente</th>
+                    <th>Productos</th>
+                    <th>Fecha de solicitud</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#PED-1254</td>
+                    <td>Carlos González</td>
+                    <td>Taladro Bosch, Juego destornilladores</td>
+                    <td>08-05-2025 09:15</td>
+                    <td><span class="status-badge status-pending">Pendiente</span></td>
+                    <td>
+                        <button class="btn">Ver detalles</button>
+                        <button class="btn">Aceptar pedido</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#PED-1253</td>
+                    <td>María Rodríguez</td>
+                    <td>Pintura Sika (3), Brochas (2)</td>
+                    <td>08-05-2025 08:32</td>
+                    <td><span class="status-badge status-processing">En proceso</span></td>
+                    <td>
+                        <button class="btn">Ver detalles</button>
+                        <button class="btn">Completar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#PED-1252</td>
+                    <td>José Martínez</td>
+                    <td>Sierra eléctrica Makita</td>
+                    <td>08-05-2025 08:20</td>
+                    <td><span class="status-badge status-ready">Listo para entrega</span></td>
+                    <td>
+                        <button class="btn">Ver detalles</button>
+                        <button class="btn">Entregar a vendedor</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#PED-1251</td>
+                    <td>Ana López</td>
+                    <td>Material eléctrico, Cable (50m)</td>
+                    <td>07-05-2025 16:45</td>
+                    <td><span class="status-badge status-ready">Listo para entrega</span></td>
+                    <td>
+                        <button class="btn">Ver detalles</button>
+                        <button class="btn">Entregar a vendedor</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#PED-1250</td>
+                    <td>Pedro Sánchez</td>
+                    <td>Juego de llaves Stanley</td>
+                    <td>07-05-2025 15:10</td>
+                    <td><span class="status-badge status-confirmed">Entregado</span></td>
+                    <td>
+                        <button class="btn">Ver detalles</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <a href="#" class="page-link"><i class="fas fa-chevron-left"></i></a>
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
+        </div>
+
+        <!-- Modal de detalles del pedido (normalmente oculto) -->
+        <div id="orderDetailsModal" style="display: none;">
+            <div class="panel-container">
+                <h2>Detalles del Pedido #PED-1254</h2>
+                <div class="d-flex justify-between mb-3">
+                    <div>
+                        <p><strong>Cliente:</strong> Carlos González</p>
+                        <p><strong>Email:</strong> carlos@example.com</p>
+                        <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
+                    </div>
+                    <div>
+                        <p><strong>Fecha de solicitud:</strong> 08-05-2025 09:15</p>
+                        <p><strong>Tipo de entrega:</strong> Retiro en tienda</p>
+                        <p><strong>Estado:</strong> <span class="status-badge status-pending">Pendiente</span></p>
+                    </div>
+                </div>
+
+                <h3>Productos</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Ubicación en bodega</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Taladro Bosch GSB 13 RE</td>
+                            <td>1</td>
+                            <td>Pasillo 3, Estante B</td>
+                            <td><input type="checkbox"> Recolectado</td>
+                        </tr>
+                        <tr>
+                            <td>Juego destornilladores Stanley (25 pcs)</td>
+                            <td>1</td>
+                            <td>Pasillo 1, Estante D</td>
+                            <td><input type="checkbox"> Recolectado</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-between mt-4">
+                    <button class="btn" id="closeModalBtn">Cerrar</button>
+                    <button class="action-btn">Confirmar preparación completa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón volver arriba -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        //Accesos segun roles
+        const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
+        // Vistas solo para admin
+        const soloAdmin = ["admin.html"];
+        // Vistas solo para cliente
+        const soloCliente = ["carrito.html", "productos.html", "index.html"];
+        // Vistas solo para bodeguero
+        const soloBodeguero = ["bodeguero.html", "index.html", "productos.html"];
+
+        // Obtén el nombre del archivo actual
+        const archivo = location.pathname.split("/").pop();
+
+        if (!usuario) {
+            // Si no hay usuario logueado, redirige siempre al login
+            window.location.href = "login.html";
+        } else if (soloCliente.includes(archivo) && usuario.rol === "Cliente") {
+            // Si se loguea y es cliente, redirige a inicio
+            window.location.href = "index.html";
+        } else if (soloAdmin.includes(archivo) && usuario.rol !== "Admin") {
+            // Si intenta entrar a admin y no es admin, redirige a inicio
+            window.location.href = "index.html";
+        } else if (soloCliente.includes(archivo) && usuario.rol === "Admin") {
+            // Si es admin podra visualizar la paginas
+            window.location.href = "admin.html";
+        } else if (soloBodeguero.includes(archivo) && usuario.rol !== "Bodeguero") {
+            // Si intenta entrar a bodeguero y no es bodeguero, redirige a inicio
+            window.location.href = "index.html";
+        }
+
+        // Aquí iría el JavaScript para la funcionalidad
+        // Por ejemplo, para mostrar el modal de detalles al hacer clic en "Ver detalles"
+        document.querySelectorAll('.btn').forEach(button => {
+            if (button.textContent === 'Ver detalles') {
+                button.addEventListener('click', () => {
+                    document.getElementById('orderDetailsModal').style.display = 'block';
+                });
+            }
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('orderDetailsModal').style.display = 'none';
+        });
+
+        // Funcionalidad para el botón "volver arriba"
+        const backToTopButton = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+
+        // Mostrar el botón solo si hay usuario logueado
+        if (localStorage.getItem("usuario")) {
+            document.getElementById("logoutBtn").style.display = "inline-block";
+        }
+
+        // Función de cerrar sesión
+        document.getElementById("logoutBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+            localStorage.removeItem("usuario"); // Borra los datos del usuario
+            // Si guardas un token, bórralo también: localStorage.removeItem("token");
+            alert("Sesión cerrada");
+            window.location.href = "login.html";
+        });
+
+        // Oculta todos los menús por defecto (excepto logout)
+        document.getElementById("menu-inicio").style.display = "none";
+        document.getElementById("menu-admin").style.display = "none";
+        document.getElementById("menu-carrito").style.display = "none";
+        document.getElementById("menu-productos").style.display = "none";
+        document.getElementById("menu-bodega").style.display = "none";
+
+        // Muestra/oculta según rol
+        if (usuario) {
+            if (usuario.rol === "Admin") {
+                document.getElementById("menu-inicio").style.display = "list-item";
+                document.getElementById("menu-admin").style.display = "list-item";
+                document.getElementById("menu-carrito").style.display = "list-item";
+                document.getElementById("menu-productos").style.display = "list-item";
+                document.getElementById("menu-bodega").style.display = "list-item";
+            } else if (usuario.rol === "Cliente") {
+                document.getElementById("menu-inicio").style.display = "list-item";
+                document.getElementById("menu-carrito").style.display = "list-item";
+                document.getElementById("menu-productos").style.display = "list-item";
+            } else if (usuario.rol === "Bodeguero") {
+                document.getElementById("menu-inicio").style.display = "list-item";
+                document.getElementById("menu-bodega").style.display = "list-item";
+                document.getElementById("menu-productos").style.display = "list-item";
+            }
+        } else {
+            // Si no hay usuario, redirige a login
+            document.getElementById("menu-admin").style.display = "none";
+            document.getElementById("menu-carrito").style.display = "none";
+        }
+
+
+        
+
+
+    </script>
+</body>
+
+</html>

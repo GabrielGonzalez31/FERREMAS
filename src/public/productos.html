@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Catálogo de Productos | FERREMAS</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body class="cliente-bg">
+  <!-- Header -->
+  <header>
+    <div class="top-bar">
+      <a href="index.html" class="logo">FERRE<span>MAS</span></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar productos...">
+        <button>Buscar</button>
+      </div>
+      <div class="header-tools">
+        <div class="cart-icon" onclick="window.location.href='carrito.html'">
+          Carrito
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <ul class="nav-menu">
+      <li id="menu-inicio"><a href="index.html" class="nav-link">Inicio</a></li>
+      <li id="menu-productos"><a href="productos.html" class="active">Productos</a></li>
+      <li id="menu-carrito"><a href="carrito.html" class="nav-link">Carrito</a></li>
+      <li id="menu-admin"><a href="admin.html" class="nav-link">Admin</a></li>
+      <li id="menu-bodega"><a href="bodeguero.html" class="nav-link">Bodega</a></li>
+      <li><a href="#" id="logoutBtn" style="display:none;">Cerrar sesión</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <h2 class="section-title text-center">Catálogo de Herramientas</h2>
+    <div class="products" id="productos"></div>
+    <div class="text-center mt-4">
+      <a href="carrito.html" class="btn action-btn">Ir al carrito</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FERREMAS</h3>
+        <p>Tu tienda de confianza para productos de ferretería y construcción.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Enlaces</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="#">Categorías</a></li>
+          <li><a href="#">Ofertas</a></li>
+          <li><a href="#">Contáctanos</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contacto</h3>
+        <p>Email: contacto@ferremas.cl</p>
+        <p>Teléfono: +56 9 1234 5678</p>
+        <p>Dirección: Av. Principal 123, Santiago</p>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 FERREMAS. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  
+  <script>
+    // Accesos segun roles
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
+    // Vistas solo para admin
+    const soloAdmin = ["admin.html"];
+    // Vistas solo para cliente
+    const soloCliente = ["carrito.html", "productos.html", "index.html"];
+
+    // Obtén el nombre del archivo actual
+    const archivo = location.pathname.split("/").pop();
+
+    if (!usuario) {
+      // Si no hay usuario logueado, redirige siempre al login
+      window.location.href = "login.html";
+    } else if (soloAdmin.includes(archivo) && usuario.rol !== "Admin") {
+      // Si intenta entrar a admin y no es admin, redirige a productos
+      window.location.href = "index.html";
+    } else if (soloCliente.includes(archivo) && usuario.rol === "Admin") {
+      // Si es admin y entra a vista de cliente, puedes dejarlo o redirigirlo a admin
+      // window.location.href = "admin.html";
+    }
+
+    // Mostrar el botón solo si hay usuario logueado
+            if (localStorage.getItem("usuario")) {
+                document.getElementById("logoutBtn").style.display = "inline-block";
+            }
+
+    // Función de cerrar sesión
+            document.getElementById("logoutBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+                localStorage.removeItem("usuario"); // Borra los datos del usuario
+                // Si guardas un token, bórralo también: localStorage.removeItem("token");
+                alert("Sesión cerrada");
+                window.location.href = "login.html";
+            });
+
+    // Cargar productos desde la BD
+    async function cargarProductos() {
+      const contenedor = document.getElementById("productos");
+      contenedor.innerHTML = "<p>Cargando productos...</p>";
+      try {
+        const res = await fetch("/api/productos");
+        const productos = await res.json();
+        contenedor.innerHTML = "";
+        productos.forEach((producto) => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+        <img src="${producto.Imagen}" alt="${producto.Nombre}" class="card-img">
+        <div class="card-body">
+          <h3 class="card-title">${producto.Nombre}</h3>
+          <p class="card-price">$${producto.Precio}</p>
+          <p class="card-text">${producto.Descripcion || ""}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn-agregar" onclick="agregarAlCarrito('${producto.id}', '${producto.Nombre}', '${producto.Descripcion}', ${producto.Precio}, '${producto.Imagen}')">Agregar al carrito</button>
+        </div>
+      `;
+          contenedor.appendChild(card);
+        });
+      } catch (err) {
+        contenedor.innerHTML = "<p>Error al cargar productos.</p>";
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.className = "toast show";
+      setTimeout(() => {
+        toast.className = "toast";
+      }, 2000);
+    }
+
+    function agregarAlCarrito(id, nombre, descripcion, precio, imagen) {
+      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      const idx = carrito.findIndex((item) => item.id == id);
+      if (idx !== -1) {
+        carrito[idx].cantidad = (carrito[idx].cantidad || 1) + 1;
+      } else {
+        carrito.push({ id, nombre, descripcion, precio, imagen, cantidad: 1 });
+      }
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      showToast(`${nombre} agregado al carrito`);
+    }
+
+    window.onload = cargarProductos;
+
+    // Oculta todos los menús por defecto (excepto logout)
+    document.getElementById("menu-inicio").style.display = "none";
+    document.getElementById("menu-admin").style.display = "none";
+    document.getElementById("menu-carrito").style.display = "none";
+    document.getElementById("menu-productos").style.display = "none";
+    document.getElementById("menu-bodega").style.display = "none";
+
+    // Muestra/oculta según rol
+    if (usuario) {
+      if (usuario.rol === "Admin") {
+        document.getElementById("menu-inicio").style.display = "list-item";
+        document.getElementById("menu-admin").style.display = "list-item";
+        document.getElementById("menu-carrito").style.display = "list-item";
+        document.getElementById("menu-productos").style.display = "list-item";
+      }
+      else if (usuario.rol === "Cliente") {
+        document.getElementById("menu-inicio").style.display = "list-item";
+        document.getElementById("menu-carrito").style.display = "list-item";
+        document.getElementById("menu-productos").style.display = "list-item";
+      }
+      else if (usuario.rol === "Bodeguero") {
+        document.getElementById("menu-inicio").style.display = "list-item";
+        document.getElementById("menu-bodega").style.display = "list-item";
+        document.getElementById("menu-productos").style.display = "list-item";
+      }
+
+    } else {
+      // Si no hay usuario, redirige a login
+      document.getElementById("menu-admin").style.display = "none";
+      document.getElementById("menu-carrito").style.display = "none";
+    }
+  </script>
+  <div id="toast" class="toast"></div>
+</body>
+
+</html>
