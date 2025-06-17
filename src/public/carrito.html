@@ -72,7 +72,7 @@
                 // Si intenta entrar a admin y no es admin, redirige a productos
                 window.location.href = "index.html";
             } else if (soloCliente.includes(archivo) && usuario.rol === "Admin") {
-                // Si es admin y entra a vista de cliente, puedes dejarlo o redirigirlo a admin
+                // Si es admin y entra a vista de cliente, se puede dejarlo o redirigirlo a admin
                 // window.location.href = "admin.html";
             }
 
@@ -88,6 +88,7 @@
                 let totalProductos = 0;
                 let subtotal = 0;
 
+                // Si el carrito está vacío, muestra un mensaje
                 if (carrito.length === 0) {
                     contenedor.innerHTML = "<p>No hay productos en el carrito.</p>";
                     subtotalLabel.textContent = "Subtotal (0 productos)";
@@ -96,7 +97,7 @@
                     cantidad.textContent = 0;
                     return;
                 }
-
+                // Si hay productos, renderiza cada uno
                 carrito.forEach((producto, idx) => {
                     const cantidadProd = producto.cantidad || 1;
                     subtotal += Number(producto.precio) * cantidadProd;
@@ -127,7 +128,7 @@
                 totalValor.textContent = `$${subtotal}`;
                 cantidad.textContent = totalProductos;
             }
-
+            // Evento para el botón de pagar
             document.getElementById("btn-pagar").addEventListener("click", async function () {
                 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
                 if (carrito.length === 0) {
@@ -141,7 +142,7 @@
                     nombre: prod.nombre,
                     precio: prod.precio
                 }));
-
+                // Llama al backend para crear el pago
                 try {
                     const response = await fetch("/api/pago/create", {
                         method: "POST",

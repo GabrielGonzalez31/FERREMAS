@@ -28,41 +28,43 @@
     </div>
 
     <script>
+
         const form = document.getElementById('loginForm');
         form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const correo = document.getElementById('email').value.trim();
-    const clave = document.getElementById('password').value.trim();
+            e.preventDefault();
+            const correo = document.getElementById('email').value.trim();
+            const clave = document.getElementById('password').value.trim();
 
-    // Validación básica de campos vacíos
-    if (!correo || !clave) {
-        showToast("Debes ingresar correo y contraseña.", true);
-        return;
-    }
+            // Validación básica de campos vacíos
+            if (!correo || !clave) {
+                showToast("Debes ingresar correo y contraseña.", true);
+                return;
+            }
 
-    // Validación de formato de correo
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(correo)) {
-        showToast("Correo electrónico no válido.", true);
-        return;
-    }
+            // Validación de formato de correo
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(correo)) {
+                showToast("Correo electrónico no válido.", true);
+                return;
+            }
 
-    const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ correo, clave })
-    });
-    const data = await res.json();
-    if (res.ok) {
-        localStorage.setItem("usuario", JSON.stringify(data.usuario));
-        showToast(data.message);
-        setTimeout(() => window.location.href = "index.html", 1200);
-    } else {
-        showToast(data.error, true);
-    }
-    form.reset();
-});
-
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ correo, clave })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+                showToast(data.message);
+                setTimeout(() => window.location.href = "index.html", 1200);
+            } else {
+                showToast(data.error, true);
+            }
+            form.reset();
+        });
+        
+        // Función para mostrar mensajes de toast
         function showToast(msg, isError = false) {
             const toast = document.getElementById("toast");
             toast.textContent = msg;
@@ -80,7 +82,7 @@
             showToast(data.error, true);
         }
     </script>
-<div id="toast" class="toast"></div>
+    <div id="toast" class="toast"></div>
 </body>
 
-</html><!-- quedé en validacion para login-->
+</html>

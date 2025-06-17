@@ -1,3 +1,4 @@
+// Interface para  la respuesta de pago de Mercado Pago
 export interface PaymentResponse {
      collection_id: string;
      collection_status: string;

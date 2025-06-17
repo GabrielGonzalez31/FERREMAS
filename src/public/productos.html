@@ -94,7 +94,7 @@
       // Si intenta entrar a admin y no es admin, redirige a productos
       window.location.href = "index.html";
     } else if (soloCliente.includes(archivo) && usuario.rol === "Admin") {
-      // Si es admin y entra a vista de cliente, puedes dejarlo o redirigirlo a admin
+      // Si es admin y entra a vista de cliente, se puede dejarlo o redirigirlo a admin
       // window.location.href = "admin.html";
     }
 
@@ -140,7 +140,7 @@
         contenedor.innerHTML = "<p>Error al cargar productos.</p>";
       }
     }
-
+    // Función para mostrar mensajes de toast
     function showToast(msg) {
       const toast = document.getElementById("toast");
       toast.textContent = msg;
@@ -149,7 +149,7 @@
         toast.className = "toast";
       }, 2000);
     }
-
+    // Función para cambiar la cantidad de un producto en el carrito
     function agregarAlCarrito(id, nombre, descripcion, precio, imagen) {
       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
       const idx = carrito.findIndex((item) => item.id == id);

@@ -28,6 +28,7 @@
   </div>
 
   <script>
+    // Función para registrar un nuevo usuario
     const form = document.querySelector("form");
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -48,6 +49,8 @@
         showToast(data.error, true);
       }
     });
+
+    // Función para mostrar mensajes de toast
 function showToast(msg, isError = false) {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
